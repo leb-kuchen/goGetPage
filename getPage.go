@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func MustGetAndReadPage(url string) string {
+func MustGetAndReadPage(url string, sessionId string) string {
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("bad request '%v'", resp.StatusCode)
