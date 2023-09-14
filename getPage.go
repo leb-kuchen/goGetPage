@@ -7,10 +7,6 @@ import (
 	"net/http/cookiejar"
 )
 
-func init() {
-
-}
-
 func MustGetAndReadPage(url string, sessionId string) string {
 	jar, err := cookiejar.New(nil)
 	if err != nil {
