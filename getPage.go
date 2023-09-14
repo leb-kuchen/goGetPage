@@ -1,17 +1,37 @@
 package goGetPage
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"net/http/cookiejar"
 )
 
+func init() {
+
+}
+
 func MustGetAndReadPage(url string, sessionId string) string {
-	fmt.Println(sessionId)
-	resp, err := http.Get(url)
+	jar, err := cookiejar.New(nil)
 	if err != nil {
-		log.Fatalf("bad request '%v'", resp.StatusCode)
+		log.Fatal("error while creating cookie jar")
+	}
+	client := http.Client{
+		Jar: jar,
+	}
+	cookie := &http.Cookie{
+		Name:   "session",
+		Value:  sessionId,
+		MaxAge: 300,
+	}
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Fatalf("bad request '%v'", err)
+	}
+	req.AddCookie(cookie)
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal("Error occured")
 	}
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
