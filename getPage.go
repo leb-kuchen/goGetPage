@@ -1,12 +1,14 @@
 package goGetPage
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 )
 
 func MustGetAndReadPage(url string, sessionId string) string {
+	fmt.Println(sessionId)
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("bad request '%v'", resp.StatusCode)
